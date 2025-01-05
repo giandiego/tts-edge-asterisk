@@ -1,0 +1,20 @@
+{
+  "name": "tts-edge-asterisk",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "description": "",
+  "dependencies": {
+    "ly-ms-edge-tts": "^1.0.4",
+    "msedge-tts": "^1.1.1",
+    "sox": "^0.1.0",
+    "uuid": "^11.0.4",
+    "voxo-agi": "^0.2.2"
+  }
+}
