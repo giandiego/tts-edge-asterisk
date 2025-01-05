@@ -50,6 +50,7 @@ Si se ejecuta como usuario asterisk (en caso contrario no ejecutar):
 sudo chown -R asterisk:asterisk /opt/tts-edge-asterisk
 ```
 
+Permisos de ejecución necesarios:
 ```bash
 sudo chmod 755 /opt/tts-edge-asterisk
 ```
