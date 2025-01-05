@@ -22,6 +22,7 @@ Sistema Text-to-Speech (TTS) para Asterisk utilizando Microsoft Edge TTS. Permit
 ## 💻 Instalación
 
 1. **Clonar el repositorio**
+(en ejemplo, se clona en '/opt/'
 ```bash
 git clone https://github.com/giandiego/tts-edge-asterisk.git
 cd tts-edge-asterisk
@@ -43,8 +44,13 @@ npm install
 ```
 
 4. **Configurar permisos**
+
+Si se ejecuta como usuario asterisk (en caso contrario no ejecutar):
 ```bash
 sudo chown -R asterisk:asterisk /opt/tts-edge-asterisk
+```
+
+```bash
 sudo chmod 755 /opt/tts-edge-asterisk
 ```
 
@@ -61,8 +67,9 @@ After=network.target
 [Service]
 ExecStart=/usr/bin/node /opt/tts-edge-asterisk/index.js
 WorkingDirectory=/opt/tts-edge-asterisk
-User=asterisk
-Group=asterisk
+;Aquí el usuario que ejecuta asterisk, si es root, dejar comentado.
+;User=asterisk
+;Group=asterisk
 Restart=always
 
 [Install]
