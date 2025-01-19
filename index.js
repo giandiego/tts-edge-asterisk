@@ -255,10 +255,12 @@ async function handleCall(channel) {
     }
 }
 
+let server;
+
 // Solo iniciar el servidor si no estamos en modo CLI
 if (import.meta.url === `file://${process.argv[1]}`) {
     // Iniciar servidor AGI
-    const server = new AGIServer(handleCall, { port: 4573 });
+    server = new AGIServer(handleCall, { port: 4573 });
     console.log('Servidor AGI iniciado en puerto 4573');
 
     // Manejo de errores del servidor
