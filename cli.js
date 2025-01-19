@@ -24,7 +24,7 @@ async function main() {
         await fs.mkdir(dirname(options.output), { recursive: true });
 
         // Inicializar el manejador TTS
-        const ttsHandler = new TTSHandler();
+        const ttsHandler = new TTSHandler(false); // Pasar false para no iniciar el servidor
         
         // Generar el archivo MP3
         console.log('Generando archivo de audio...');

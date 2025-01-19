@@ -12,7 +12,7 @@ Sistema Text-to-Speech (TTS) para Asterisk utilizando Microsoft Edge TTS. Permit
 - Basado en Node.js para fácil mantenimiento
 - CLI para generación de archivos de audio desde línea de comandos
 
-## �� Requisitos Previos
+## 🛠️ Requisitos Previos
 
 - Asterisk 16 o superior
 - Node.js 16 o superior
@@ -106,7 +106,14 @@ exten => s,1,Answer()
 
 ## 📚 Uso
 
-### Sintaxis Básica AGI
+El sistema puede usarse de dos formas:
+
+1. Como servidor AGI para Asterisk (modo servicio)
+2. Como herramienta CLI para generar archivos de audio (modo independiente)
+
+### Modo Servicio (AGI)
+
+#### Sintaxis Básica AGI
 ```ini
 AGI(agi://localhost:4573,"texto a reproducir","idioma"[,"any"])
 ```
@@ -115,37 +122,7 @@ AGI(agi://localhost:4573,"texto a reproducir","idioma"[,"any"])
 - **idioma**: Código del idioma (es, en, etc.)
 - **any**: Opcional, para esperar entrada DTMF
 
-### Uso del CLI
-
-El CLI permite generar archivos de audio desde la línea de comandos sin necesidad de Asterisk.
-
-#### Sintaxis del CLI
-```bash
-node cli.js -t "texto" -o "archivo_salida" [-l idioma] [-r tasa_muestreo]
-```
-
-Parámetros:
-- `-t, --text`: Texto a convertir en audio (requerido)
-- `-o, --output`: Ruta del archivo de salida (requerido)
-- `-l, --lang`: Idioma (opcional, por defecto 'es')
-- `-r, --rate`: Tasa de muestreo en Hz (opcional, por defecto 8000)
-
-#### Ejemplo de uso del CLI
-```bash
-# Similar a googletts-cli.pl
-node cli.js -r 8000 -o /root/prueba1.wav -l es -t "este audio se genero con tts edge cli"
-
-# Ejemplo básico
-node cli.js -t "Bienvenido a nuestro sistema" -o ./audio.wav
-
-# Ejemplo en inglés
-node cli.js -t "Welcome to our system" -o ./welcome.wav -l en
-
-# Ejemplo con tasa de muestreo personalizada
-node cli.js -t "Mensaje de prueba" -o ./test.wav -r 16000
-```
-
-### Ejemplos AGI
+#### Ejemplos AGI
 
 1. **Mensaje simple**
 ```ini
@@ -161,6 +138,45 @@ exten => 2000,1,AGI(agi://localhost:4573,"Por favor marque una opción","es","an
 ```ini
 exten => 3000,1,AGI(agi://localhost:4573,"Welcome to our company","en")
 ```
+
+### Modo CLI (Independiente)
+
+El CLI permite generar archivos de audio desde la línea de comandos sin necesidad de tener Asterisk o el servidor AGI en ejecución.
+
+#### Sintaxis del CLI
+```bash
+node cli.js -t "texto" -o "archivo_salida" [-l idioma] [-r tasa_muestreo]
+```
+
+Parámetros:
+- `-t, --text`: Texto a convertir en audio (requerido)
+- `-o, --output`: Ruta del archivo de salida (requerido)
+- `-l, --lang`: Idioma (opcional, por defecto 'es')
+- `-r, --rate`: Tasa de muestreo en Hz (opcional, por defecto 8000)
+
+#### Ejemplos de uso del CLI
+
+1. **Ejemplo básico**
+```bash
+node cli.js -t "Bienvenido a nuestro sistema" -o ./audio.wav
+```
+
+2. **Especificando idioma y tasa de muestreo**
+```bash
+node cli.js -r 8000 -o /root/prueba1.wav -l es -t "este audio se genero con tts edge cli"
+```
+
+3. **Mensaje en inglés**
+```bash
+node cli.js -t "Welcome to our system" -o ./welcome.wav -l en
+```
+
+4. **Con tasa de muestreo personalizada**
+```bash
+node cli.js -t "Mensaje de prueba" -o ./test.wav -r 16000
+```
+
+**Nota**: El CLI funciona de manera independiente al servidor AGI. Puedes usar el CLI incluso cuando el servidor AGI está en ejecución, ya que son modos de operación separados.
 
 ## 🔍 Monitoreo y Logs
 
@@ -197,6 +213,30 @@ which sox
 ```bash
 ls -l /opt/tts-edge-asterisk
 ```
+
+## 🔄 Actualización
+
+Para actualizar el proyecto a la última versión:
+
+1. **Ir al directorio del proyecto**
+```bash
+cd /opt/tts-edge-asterisk
+```
+2. **Obtener los últimos cambios**
+```bash
+git pull origin main
+```
+
+3. **Instalar dependencias**
+```bash
+npm install
+```
+
+4. **Reiniciar el servicio**
+```bash
+sudo systemctl restart tts-edge-asterisk
+```
+
 
 ## 📝 Voces Disponibles
 

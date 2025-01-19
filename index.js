@@ -36,8 +36,9 @@ class TTSHandler {
     /**
      * Crea una instancia de TTSHandler e inicializa MsEdgeTTS.
      * También hace un seguimiento de los archivos temporales generados.
+     * @param {boolean} [startServer=true] - Si es true, inicia el servidor AGI
      */
-    constructor() {
+    constructor(startServer = true) {
         this.tts = new MsEdgeTTS();
         this.tempFiles = new Set();
         this.initTempDir();
@@ -254,30 +255,32 @@ async function handleCall(channel) {
     }
 }
 
-// Iniciar servidor AGI
-const server = new AGIServer(handleCall, { port: 4573 });
-console.log('Servidor AGI iniciado en puerto 4573');
+// Solo iniciar el servidor si no estamos en modo CLI
+if (import.meta.url === `file://${process.argv[1]}`) {
+    // Iniciar servidor AGI
+    const server = new AGIServer(handleCall, { port: 4573 });
+    console.log('Servidor AGI iniciado en puerto 4573');
 
-// Manejo de errores del servidor
-server.on('error', (error) => {
-    console.error('Error en el servidor AGI:', error);
-});
+    // Manejo de errores del servidor
+    server.on('error', (error) => {
+        console.error('Error en el servidor AGI:', error);
+    });
 
-// Limpieza periódica de archivos temporales cada hora
-setInterval(async () => {
-    const ttsHandler = new TTSHandler();
-    await ttsHandler.cleanOldFiles();
-}, 60 * 60 * 1000);
+    // Limpieza periódica de archivos temporales cada hora
+    setInterval(async () => {
+        const ttsHandler = new TTSHandler(false);
+        await ttsHandler.cleanOldFiles();
+    }, 60 * 60 * 1000);
 
-
-// Manejo de cierre del proceso
-process.on('SIGINT', async () => {
-    console.log('Cerrando servidor...');
-    // Limpiar archivos antes de cerrar
-    const ttsHandler = new TTSHandler();
-    await ttsHandler.cleanOldFiles();
-    process.exit(0);
-});
+    // Manejo de cierre del proceso
+    process.on('SIGINT', async () => {
+        console.log('Cerrando servidor...');
+        // Limpiar archivos antes de cerrar
+        const ttsHandler = new TTSHandler(false);
+        await ttsHandler.cleanOldFiles();
+        process.exit(0);
+    });
+}
 
 export { TTSHandler };
 export default server;
