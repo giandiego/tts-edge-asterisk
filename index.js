@@ -279,4 +279,5 @@ process.on('SIGINT', async () => {
     process.exit(0);
 });
 
+export { TTSHandler };
 export default server;

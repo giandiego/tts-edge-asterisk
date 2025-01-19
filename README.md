@@ -10,8 +10,9 @@ Sistema Text-to-Speech (TTS) para Asterisk utilizando Microsoft Edge TTS. Permit
 - Caché de archivos de audio para mejor rendimiento
 - Fácil integración con planes de marcado existentes
 - Basado en Node.js para fácil mantenimiento
+- CLI para generación de archivos de audio desde línea de comandos
 
-## 📋 Requisitos Previos
+## �� Requisitos Previos
 
 - Asterisk 16 o superior
 - Node.js 16 o superior
@@ -105,7 +106,7 @@ exten => s,1,Answer()
 
 ## 📚 Uso
 
-### Sintaxis Básica
+### Sintaxis Básica AGI
 ```ini
 AGI(agi://localhost:4573,"texto a reproducir","idioma"[,"any"])
 ```
@@ -114,7 +115,37 @@ AGI(agi://localhost:4573,"texto a reproducir","idioma"[,"any"])
 - **idioma**: Código del idioma (es, en, etc.)
 - **any**: Opcional, para esperar entrada DTMF
 
-### Ejemplos
+### Uso del CLI
+
+El CLI permite generar archivos de audio desde la línea de comandos sin necesidad de Asterisk.
+
+#### Sintaxis del CLI
+```bash
+node cli.js -t "texto" -o "archivo_salida" [-l idioma] [-r tasa_muestreo]
+```
+
+Parámetros:
+- `-t, --text`: Texto a convertir en audio (requerido)
+- `-o, --output`: Ruta del archivo de salida (requerido)
+- `-l, --lang`: Idioma (opcional, por defecto 'es')
+- `-r, --rate`: Tasa de muestreo en Hz (opcional, por defecto 8000)
+
+#### Ejemplo de uso del CLI
+```bash
+# Similar a googletts-cli.pl
+node cli.js -r 8000 -o /root/prueba1.wav -l es -t "este audio se genero con tts edge cli"
+
+# Ejemplo básico
+node cli.js -t "Bienvenido a nuestro sistema" -o ./audio.wav
+
+# Ejemplo en inglés
+node cli.js -t "Welcome to our system" -o ./welcome.wav -l en
+
+# Ejemplo con tasa de muestreo personalizada
+node cli.js -t "Mensaje de prueba" -o ./test.wav -r 16000
+```
+
+### Ejemplos AGI
 
 1. **Mensaje simple**
 ```ini
