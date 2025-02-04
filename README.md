@@ -34,6 +34,7 @@ cd tts-edge-asterisk
 # Ubuntu/Debian
 sudo apt-get update
 sudo apt-get install -y nodejs npm sox build-essential
+sudo apt-get install libsox-fmt-mp3
 
 # CentOS/RHEL
 sudo dnf install -y nodejs npm sox gcc-c++ make
